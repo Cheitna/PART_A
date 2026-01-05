@@ -6,9 +6,15 @@ import pickle
 from nltk.metrics.distance import edit_distance
 import spacy
 import subprocess
+# -----------------------------
+# Load spaCy locally
+# -----------------------------
 import sys
-import en_core_web_sm
-nlp = en_core_web_sm.load()
+sys.path.append("./spacy_model")  # add your local spacy_model folder to Python path
+
+from en_core_web_sm import load  # import local model
+nlp = load()  # load model
+
 # -----------------------------
 # Page configuration
 # -----------------------------
