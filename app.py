@@ -15,7 +15,6 @@ try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
     # Model not found, download it
-    st.info("Downloading spaCy 'en_core_web_sm' model. This may take a few seconds...")
     subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"], check=True)
     nlp = spacy.load("en_core_web_sm")
 # -----------------------------
