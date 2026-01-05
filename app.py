@@ -7,20 +7,8 @@ from nltk.metrics.distance import edit_distance
 import spacy
 import subprocess
 import sys
-
-# -----------------------------
-# Load spaCy (POS, lemma, dependency) safely for cloud
-# -----------------------------
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    # Model not found, download it
-    subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"], check=True)
-    nlp = spacy.load("en_core_web_sm")
-# -----------------------------
-# Load spaCy (POS, lemma, dependency)
-# -----------------------------
-nlp = spacy.load("en_core_web_sm")
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 # -----------------------------
 # Page configuration
 # -----------------------------
