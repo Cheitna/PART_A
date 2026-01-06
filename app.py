@@ -5,16 +5,16 @@ import streamlit as st
 import pickle
 from nltk.metrics.distance import edit_distance
 import spacy
-from pathlib import Path
-
-zip_path = Path(__file__).parent / "spacy_model.zip"
+import subprocess
+import sys
 
 try:
-    nlp = spacy.load(zip_path)
+    nlp = spacy.load("en_core_web_sm")
 except OSError:
-    st.error("⚠️ Failed to load spaCy model from zip. "
-             "Make sure 'spacy_model.zip' exists in the repo and contains 'en_core_web_sm' folder.")
-    st.stop()
+    import spacy.cli
+    spacy.cli.download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
+
 
 # -----------------------------
 # Page configuration
