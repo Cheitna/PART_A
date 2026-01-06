@@ -258,8 +258,17 @@ def detect_errors(text):
 # Streamlit UI
 # -----------------------------
 st.title("✍️ Spelling & Grammar Correction System")
+st.markdown("""
+**How to use:**  
+1. Enter your text  
+2. Click **Check Text**  
+3. 🔴 Red → spelling error  
+4. 🟢 Green → grammar correction  
+5. Click words to see suggestions
+""")
 
-user_input = st.text_area("Enter text:", height=120)
+
+user_input = st.text_area("Enter text (Max 500 words):", height=120)
 
 if st.button("🔍 Check Text", use_container_width=True):
     if not user_input.strip():
@@ -328,3 +337,5 @@ with st.container(height=220):
         freq = WORD_FREQ.get(w, 0)
         st.markdown(f"- **{w}** <span style='color:gray'>(freq: {freq})</span>",
                     unsafe_allow_html=True)
+        
+st.caption("📘 MSc Artificial Intelligence | Rule-Based NLP System")
