@@ -5,16 +5,14 @@ import streamlit as st
 import pickle
 from nltk.metrics.distance import edit_distance
 import spacy
-import subprocess
-import sys
 
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
-    import spacy.cli
-    spacy.cli.download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
-
+    st.error("⚠️ spaCy model 'en_core_web_sm' not found. "
+             "Make sure your requirements.txt includes:\n"
+             "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.6.0/en_core_web_sm-3.6.0-py3-none-any.whl")
+    st.stop()
 
 # -----------------------------
 # Page configuration
