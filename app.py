@@ -73,6 +73,14 @@ def load_models():
 
 VOCAB, WORD_FREQ, BIGRAM_COUNTS, UNIGRAM_COUNTS, TOTAL_UNIGRAMS = load_models()
 VOCAB_SIZE = len(VOCAB)
+# -----------------------------
+# Prepare sorted vocabulary for UI
+# -----------------------------
+SORTED_VOCAB = sorted(
+    VOCAB,
+    key=lambda w: WORD_FREQ.get(w, 0),
+    reverse=True
+)
 
 # -----------------------------
 # Helper functions
@@ -286,18 +294,37 @@ if st.button("🔍 Check Text", use_container_width=True):
                     st.markdown(
                         f"- **{s['word']}** | distance `{s['edit_distance']}` | score `{round(s['score'],4)}`"
                     )
-
 # -----------------------------
-# Vocabulary search
+# Vocabulary search + scrollable list
 # -----------------------------
 st.subheader("🔎 Search / Explore Words")
-search = st.text_input("Search a word in the corpus:")
 
+search = st.text_input(
+    "Search a word in the corpus:",
+    placeholder="Type to filter words..."
+)
+
+# Filter vocab
 if search:
-    lw = search.lower()
-    if lw in VOCAB:
-        st.success(f"✅ '{search}' exists (frequency: {WORD_FREQ.get(lw,0)})")
+    filtered_vocab = [
+        w for w in SORTED_VOCAB
+        if w.startswith(search.lower())
+    ]
+else:
+    filtered_vocab = SORTED_VOCAB[:300]  # top frequent words
+
+# Search feedback
+if search:
+    if search.lower() in VOCAB:
+        st.success(f"✅ '{search}' exists (frequency: {WORD_FREQ.get(search.lower(),0)})")
     else:
         st.error(f"❌ '{search}' not found in corpus.")
 
-st.caption("📘 MSc Artificial Intelligence | Rule-Based NLP System")
+# Scrollable list
+st.markdown("**📜 Dictionary Words**")
+
+with st.container(height=220):
+    for w in filtered_vocab:
+        freq = WORD_FREQ.get(w, 0)
+        st.markdown(f"- **{w}** <span style='color:gray'>(freq: {freq})</span>",
+                    unsafe_allow_html=True)
